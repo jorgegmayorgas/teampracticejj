@@ -73,9 +73,10 @@ def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     'petal_width_(cm)':[wpetal]}
     df_get_values=pd.DataFrame(dict_get_values)
     prediction = model.predict(df_get_values)
-    result_json={'prediction': prediction[0]}
+    type_of_variable = type(prediction[0])
+    result_json={'prediction': type_of_variable}
     #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
-    return result_json
+    return jsonify(result_json)
 # Enruta la funcion al endpoint /api/v1/labelflowerclasses
 @app.route('/api/v1/labelflowerclasses', methods=['GET'])
 def labelflowerclasses(): # Ligado al endpoint '/api/v1/predict', con el método GET
