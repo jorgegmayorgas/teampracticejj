@@ -29,8 +29,8 @@ from sklearn.decomposition import PCA
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-root_path = "/home/jorgegmayorgas/taller_apis_nunca/"
-root_path ="/home/jorge/taller_apis_nunca/"
+root_path = "/home/jorgegmayorgas/teampracticejj/"
+root_path ="/home/jorge/teampracticejj/"
 label_dict={'setosa':0,'versicolor':1,'virginica':2}
 label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
 # Enruta la landing page (endpoint /)
@@ -75,7 +75,7 @@ def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     prediction = model.predict(df_get_values)
     result_json={'prediction': prediction[0]}
     #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
-    return jsonify(result_json)
+    return result_json
 # Enruta la funcion al endpoint /api/v1/labelflowerclasses
 @app.route('/api/v1/labelflowerclasses', methods=['GET'])
 def labelflowerclasses(): # Ligado al endpoint '/api/v1/predict', con el método GET
@@ -92,28 +92,29 @@ def numericflowerclasses(): # Ligado al endpoint '/api/v1/predict', con el méto
 # Enruta la funcion al endpoint /api/v1/retrain
 @app.route('/api/v1/retrain/', methods=['GET'])
 def retrain(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
-    if os.path.exists(root_path + "data/Advertising_new.csv"):
-        data = pd.read_csv(root_path + 'data/Advertising_new.csv')
+    #if os.path.exists(root_path + "data/Advertising_new.csv"):
+    #    data = pd.read_csv(root_path + 'data/Advertising_new.csv')
+    #
+    #        X_train, X_test, y_train, y_test = train_test_split(data.drop(columns=['sales']),
+                                                            #data['sales'],
+                                                            #test_size = 0.20,
+                                                            #random_state=42)
 
-        X_train, X_test, y_train, y_test = train_test_split(data.drop(columns=['sales']),
-                                                        data['sales'],
-                                                        test_size = 0.20,
-                                                        random_state=42)
+            #model = Lasso(alpha=6000)
+            #model.fit(X_train, y_train)
+            #rmse = np.sqrt(mean_squared_error(y_test, model.predict(X_test)))
+            #mape = mean_absolute_percentage_error(y_test, model.predict(X_test))
+            #model.fit(data.drop(columns=['sales']), data['sales'])
+            #pickle.dump(model, open(root_path + 'ad_model.pkl', 'wb'))
 
-        model = Lasso(alpha=6000)
-        model.fit(X_train, y_train)
-        rmse = np.sqrt(mean_squared_error(y_test, model.predict(X_test)))
-        mape = mean_absolute_percentage_error(y_test, model.predict(X_test))
-        model.fit(data.drop(columns=['sales']), data['sales'])
-        pickle.dump(model, open(root_path + 'ad_model.pkl', 'wb'))
-
-        return f"Model retrained. New evaluation metric RMSE: {str(rmse)}, MAPE: {str(mape)}"
-    else:
-        return f"<h2>New data for retrain NOT FOUND. Nothing done!</h2>"
+            #return f"Model retrained. New evaluation metric RMSE: {str(rmse)}, MAPE: {str(mape)}"
+        #else:
+            #return f"<h2>New data for retrain NOT FOUND. Nothing done!</h2>"
+            return None
 @app.route('/webhook_2024', methods=['POST'])
 def webhook():
     # Ruta al repositorio donde se realizará el pull
-    path_repo = '/home/jorgegmayorgas/taller_apis_nunca'
+    path_repo = '/home/jorgegmayorgas/teampracticejj'
     servidor_web = '/var/www/jorgegmayorgas_pythonanywhere_com_wsgi.py' 
 
     # Comprueba si la solicitud POST contiene datos JSON
