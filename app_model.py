@@ -74,7 +74,10 @@ def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     df_get_values=pd.DataFrame(dict_get_values)
     prediction = model.predict(df_get_values)
     #type_of_variable = type(prediction[0])
-    result_json={'prediction': int(prediction[0])}
+    result_json={
+        'prediction_numeric': int(prediction[0]),
+        'prediction_label': label_dict_reverse[int(prediction[0])]
+                 }
     #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
     return jsonify(result_json)
 # Enruta la funcion al endpoint /api/v1/labelflowerclasses
