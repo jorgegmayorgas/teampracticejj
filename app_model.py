@@ -52,7 +52,7 @@ def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
 
 # Enruta la funcion al endpoint /api/v1/predicta
 @app.route('/api/v1/predictrf', methods=['GET'])
-def predict(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
+def predictrf(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
 
     model = pickle.load(open(root_path + 'random_forest.pkl','rb'))
     lsepal = request.args.get('lsepal')
@@ -85,7 +85,7 @@ def predict(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
     #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
     return jsonify(result_json)
 @app.route('/api/v1/predictk', methods=['GET'])
-def predict(): # Ligado al endpoint '/api/v1/predictk', con el método GET
+def predictk(): # Ligado al endpoint '/api/v1/predictk', con el método GET
     model = pickle.load(open(root_path + 'knn.pkl','rb'))
     lsepal = request.args.get('lsepal')
     wsepal = request.args.get('wsepal')
