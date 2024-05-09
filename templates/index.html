@@ -52,8 +52,11 @@
             <li class="scroll-to-link" data-target="content-get-numeric-flower-classes">
                 <a>Get the numeric of the flower classes</a>
             </li>
-            <li class="scroll-to-link" data-target="content-predict-flower-class">
-                <a>Predict the flower class</a>
+            <li class="scroll-to-link" data-target="content-predictrf-flower-class">
+                <a>Predict the flower class with Random Forest</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-predictk-flower-class">
+                <a>Predict the flower class with KNN</a>
             </li>
             <li class="scroll-to-link" data-target="content-errors">
                 <a>Errors</a>
@@ -147,12 +150,12 @@ Result example :
                 </tbody>
             </table>
         </div>
-        <div class="overflow-hidden content-section" id="content-predict-flower-class">
-            <h2>Predict the flower class</h2>
+        <div class="overflow-hidden content-section" id="content-predictrf-flower-class">
+            <h2>Predict the flower class with Random Forest</h2>
             <pre><code class="bash">
 # Here is a curl example
 curl \
--X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/predict \
+-X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/predictrf&lsepal=1&wsepal=2&lpetal=3&wpetal=4 \
                 </code></pre>
             <p>
                 To get the numeric flower classes you need to make a GET call to the following url :<br>
@@ -163,9 +166,61 @@ curl \
 Result example :
 
 {
-    "0": "setosa",
-    "1": "versicolor",
-    "2": "virginica"
+    "prediction_label": "virginica",
+    "prediction_numeric": 2
+}
+                </code></pre>
+            <h4>QUERY PARAMETERS</h4>
+            <table class="central-overflow-x">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>lsepal</td>
+                    <td>Float</td>
+                    <td>Length of the sepal</td>
+                </tr>
+                <tr>
+                    <td>wsepal</td>
+                    <td>Float</td>
+                    <td>Width of the sepal</td>
+                </tr>
+                <tr>
+                    <td>lpetal</td>
+                    <td>Float</td>
+                    <td>Length of the petal</td>
+                </tr>
+                <tr>
+                    <td>wpetal</td>
+                    <td>Float</td>
+                    <td>Width of the petal</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="overflow-hidden content-section" id="content-predictk-flower-class">
+            <h2>Predict the flower class with KNN</h2>
+            <pre><code class="bash">
+# Here is a curl example
+curl \
+-X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/predictk&lsepal=1&wsepal=2&lpetal=3&wpetal=4 \
+                </code></pre>
+            <p>
+                To get the numeric flower classes you need to make a GET call to the following url :<br>
+                <code class="higlighted break-word">https://jorgegmayorgas.pythonanywhere.com/api/v1/predictk</code>
+            </p>
+            <br>
+            <pre><code class="json">
+Result example :
+
+{
+    "prediction_label": "virginica",
+    "prediction_numeric": 2
 }
                 </code></pre>
             <h4>QUERY PARAMETERS</h4>

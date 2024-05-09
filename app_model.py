@@ -33,6 +33,10 @@ root_path = "/home/jorgegmayorgas/teampracticejj/"
 root_path ="/home/jorge/teampracticejj/"
 label_dict={'setosa':0,'versicolor':1,'virginica':2}
 label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
+target="species"
+features_cat= ['sepal_length_(cm)','sepal_width_(cm)','petal_length_(cm)','petal_width_(cm)']
+# Specify the number of rows
+
 # Enruta la landing page (endpoint /)
 @app.route('/', methods=['GET'])
 def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
@@ -47,10 +51,10 @@ def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
     return render_template('index.html')
 
 # Enruta la funcion al endpoint /api/v1/predicta
-@app.route('/api/v1/predict', methods=['GET'])
-def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
+@app.route('/api/v1/predictrf', methods=['GET'])
+def predict(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
 
-    model = pickle.load(open(root_path + '20240505_091754_random_forest.pkl','rb'))
+    model = pickle.load(open(root_path + 'random_forest.pkl','rb'))
     lsepal = request.args.get('lsepal')
     wsepal = request.args.get('wsepal')
     lpetal = request.args.get('lpetal')
@@ -77,7 +81,36 @@ def predict(): # Ligado al endpoint '/api/v1/predict', con el método GET
     result_json={
         'prediction_numeric': int(prediction[0]),
         'prediction_label': label_dict_reverse[int(prediction[0])]
-                 }
+    }
+    #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
+    return jsonify(result_json)
+@app.route('/api/v1/predictk', methods=['GET'])
+def predict(): # Ligado al endpoint '/api/v1/predictk', con el método GET
+    model = pickle.load(open(root_path + 'knn.pkl','rb'))
+    lsepal = request.args.get('lsepal')
+    wsepal = request.args.get('wsepal')
+    lpetal = request.args.get('lpetal')
+    wpetal = request.args.get('wpetal')
+    print(lsepal,wsepal,lpetal,wpetal)
+    bln_error=False
+    if lsepal is None:
+        bln_error=True
+    if wsepal is None:
+        bln_error=True
+    if lpetal is None:
+        bln_error=True
+    if wpetal is None:
+        bln_error=True
+    dict_get_values={'sepal_length_(cm)':[lsepal],
+    'sepal_width_(cm)':[wsepal],
+    'petal_length_(cm)':[lpetal],
+    'petal_width_(cm)':[wpetal]}
+    df_get_values=pd.DataFrame(dict_get_values)
+    prediction = model.predict(df_get_values)
+    result_json={
+        'prediction_numeric': int(prediction[0]),
+        'prediction_label': label_dict_reverse[int(prediction[0])]
+    }
     #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
     return jsonify(result_json)
 # Enruta la funcion al endpoint /api/v1/labelflowerclasses
@@ -90,31 +123,49 @@ def labelflowerclasses(): # Ligado al endpoint '/api/v1/predict', con el método
 @app.route('/api/v1/numericflowerclasses', methods=['GET'])
 def numericflowerclasses(): # Ligado al endpoint '/api/v1/predict', con el método GET
 
-    
-    #return jsonify({'predictions_label': label_dict_reverse[prediction[0]],'predictions': prediction[0]})
     return jsonify(label_dict_reverse)
-# Enruta la funcion al endpoint /api/v1/retrain
-@app.route('/api/v1/retrain/', methods=['GET'])
-def retrain(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
-    #if os.path.exists(root_path + "data/Advertising_new.csv"):
-    #    data = pd.read_csv(root_path + 'data/Advertising_new.csv')
-    #
-    #        X_train, X_test, y_train, y_test = train_test_split(data.drop(columns=['sales']),
-                                                            #data['sales'],
-                                                            #test_size = 0.20,
-                                                            #random_state=42)
+# Enruta la funcion al endpoint /api/v1/retrainforest
+@app.route('/api/v1/retrainforest/', methods=['GET'])
+def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
+    
+    if os.path.exists(root_path + "data/retrain_random_forest.csv"):
+        data = pd.read_csv(root_path + 'data/retrain_random_forest.csv')
+        X_train, X_test, y_train, y_test = train_test_split(data.drop(target),
+                                                            data[target],
+                                                            test_size = 0.20,
+                                                            random_state=42)
+        model = RandomForestClassifier(n_estimators=150,random_state=42)  # 150 trees in the forest   
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        filename = f'./random_forest.pkl'
+        filename = f'{filename}.pkl'
+        with open(filename, 'wb') as file:
+            pickle.dump(model, file)
+        
+        message = "Model Random Forest retrained"
+        message = message + print("") + classification_report(y_test,y_pred) 
+        return message
 
-            #model = Lasso(alpha=6000)
-            #model.fit(X_train, y_train)
-            #rmse = np.sqrt(mean_squared_error(y_test, model.predict(X_test)))
-            #mape = mean_absolute_percentage_error(y_test, model.predict(X_test))
-            #model.fit(data.drop(columns=['sales']), data['sales'])
-            #pickle.dump(model, open(root_path + 'ad_model.pkl', 'wb'))
-
-            #return f"Model retrained. New evaluation metric RMSE: {str(rmse)}, MAPE: {str(mape)}"
-        #else:
-            #return f"<h2>New data for retrain NOT FOUND. Nothing done!</h2>"
-            return None
+@app.route('/api/v1/retrainknn/', methods=['GET'])
+def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
+    if os.path.exists(root_path + "data/retrain_knn.csv"):
+        data = pd.read_csv(root_path + 'data/retrain_knn.csv')
+        X_train, X_test, y_train, y_test = train_test_split(data.drop(target),
+                                                            data[target],
+                                                            test_size = 0.20,
+                                                            random_state=42)
+        model = KNeighborsClassifier(n_neighbors=12) 
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        filename = f'./knn.pkl'
+        filename = f'{filename}.pkl'
+        with open(filename, 'wb') as file:
+            pickle.dump(model, file)
+        
+        message = "Model KNN retrained"
+        message = message + print("") + classification_report(y_test,y_pred) 
+        return message
+    
 @app.route('/webhook_2024', methods=['POST'])
 def webhook():
     # Ruta al repositorio donde se realizará el pull
