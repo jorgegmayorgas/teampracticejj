@@ -26,13 +26,12 @@ from sklearn.decomposition import PCA
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-root_path = "/home/jorgegmayorgas/teampracticejj/"
 #root_path ="/home/jorge/teampracticejj/"
 label_dict={'setosa':0,'versicolor':1,'virginica':2}
 label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
 target="species"
 features_cat= ['sepal_length_(cm)','sepal_width_(cm)','petal_length_(cm)','petal_width_(cm)']
-# Specify the number of rows
+root_path = "/home/jorgegmayorgas/teampracticejj/"
 
 # Enruta la landing page (endpoint /)
 @app.route('/', methods=['GET'])
