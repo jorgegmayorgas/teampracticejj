@@ -88,25 +88,25 @@ def predictk(): # Ligado al endpoint '/api/v1/predictk', con el método GET
     wpetal = request.args.get('wpetal')
     #print(lsepal,wsepal,lpetal,wpetal)
     bln_error=False
-    if lsepal is None:
+    if not lsepal:
         result_json={
         'error': '001',
         'message': 'lsepal parameter is mandatory'
     }
         return jsonify(result_json)    
-    if wsepal is None:
+    if  not wsepal:
         result_json={
         'error': '002',
         'message': 'wsepal parameter is mandatory'
     }
         return jsonify(result_json)    
-    if lpetal is None:
+    if  not lpetal:
         result_json={
         'error': '003',
         'message': 'lpetal parameter is mandatory'
     }   
         return jsonify(result_json)    
-    if wpetal is None:
+    if not  wpetal:
         result_json={
         'error': '004',
         'message': 'wpetal parameter is mandatory'
