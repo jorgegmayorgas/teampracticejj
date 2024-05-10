@@ -32,7 +32,6 @@ label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
 target="species"
 features_cat= ['sepal_length_(cm)','sepal_width_(cm)','petal_length_(cm)','petal_width_(cm)']
 root_path = "/home/jorgegmayorgas/teampracticejj/"
-
 # Enruta la landing page (endpoint /)
 @app.route('/', methods=['GET'])
 def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
