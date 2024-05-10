@@ -30,7 +30,7 @@ from sklearn.decomposition import PCA
 app = Flask(__name__)
 app.config['DEBUG'] = True
 root_path = "/home/jorgegmayorgas/teampracticejj/"
-root_path ="/home/jorge/teampracticejj/"
+#root_path ="/home/jorge/teampracticejj/"
 label_dict={'setosa':0,'versicolor':1,'virginica':2}
 label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
 target="species"
