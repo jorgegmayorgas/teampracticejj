@@ -1,19 +1,15 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
 import pickle
 import random
-import seaborn as sns
 import subprocess
 import urllib.request
 from flask import Flask, jsonify, request,render_template, send_from_directory
 from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
-####
 from sklearn.preprocessing import StandardScaler,MinMaxScaler,OneHotEncoder,MultiLabelBinarizer,OneHotEncoder,OrdinalEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from skimage.io import imread
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report, confusion_matrix,ConfusionMatrixDisplay,r2_score, mean_absolute_error, mean_squared_error,mean_absolute_percentage_error,r2_score
 from sklearn.model_selection import train_test_split,GridSearchCV,RandomizedSearchCV
@@ -29,14 +25,12 @@ from sklearn.decomposition import PCA
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-root_path = "/home/jorgegmayorgas/teampracticejj/"
-root_path ="/home/jorge/teampracticejj/"
+#root_path ="/home/jorge/teampracticejj/"
 label_dict={'setosa':0,'versicolor':1,'virginica':2}
 label_dict_reverse={0:'setosa',1:'versicolor',2:'virginica'}
 target="species"
 features_cat= ['sepal_length_(cm)','sepal_width_(cm)','petal_length_(cm)','petal_width_(cm)']
-# Specify the number of rows
-
+root_path = "/home/jorgegmayorgas/teampracticejj/"
 # Enruta la landing page (endpoint /)
 @app.route('/', methods=['GET'])
 def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
@@ -130,8 +124,10 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
     
     if os.path.exists(root_path + "data/retrain_random_forest.csv"):
         data = pd.read_csv(root_path + 'data/retrain_random_forest.csv')
-        X_train, X_test, y_train, y_test = train_test_split(data.drop(target),
-                                                            data[target],
+        X = data[features_cat]
+        y = data[target]
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            y,
                                                             test_size = 0.20,
                                                             random_state=42)
         model = RandomForestClassifier(n_estimators=150,random_state=42)  # 150 trees in the forest   
@@ -143,15 +139,17 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
             pickle.dump(model, file)
         
         message = "Model Random Forest retrained"
-        message = message + print("") + classification_report(y_test,y_pred) 
+        message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
         return message
 
 @app.route('/api/v1/retrainknn/', methods=['GET'])
 def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
     if os.path.exists(root_path + "data/retrain_knn.csv"):
         data = pd.read_csv(root_path + 'data/retrain_knn.csv')
-        X_train, X_test, y_train, y_test = train_test_split(data.drop(target),
-                                                            data[target],
+        X = data[features_cat]
+        y = data[target]
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            y,
                                                             test_size = 0.20,
                                                             random_state=42)
         model = KNeighborsClassifier(n_neighbors=12) 
@@ -163,7 +161,7 @@ def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
             pickle.dump(model, file)
         
         message = "Model KNN retrained"
-        message = message + print("") + classification_report(y_test,y_pred) 
+        message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
         return message
     
 @app.route('/webhook_2024', methods=['POST'])

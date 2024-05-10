@@ -39,8 +39,8 @@
     <div class="mobile-menu-closer"></div>
     <div class="content-menu">
         <div class="content-infos">
-            <div class="info"><b>Version:</b> 0.0.1</div>
-            <div class="info"><b>Last Updated:</b> 6th May, 2024</div>
+            <div class="info"><b>Version:</b> 0.0.2</div>
+            <div class="info"><b>Last Updated:</b> May 10th, 2024</div>
         </div>
         <ul>
             <li class="scroll-to-link active" data-target="content-get-started">
@@ -57,6 +57,12 @@
             </li>
             <li class="scroll-to-link" data-target="content-predictk-flower-class">
                 <a>Predict the flower class with KNN</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-retrainrf-flower-class">
+                <a>Retrain model Random Forest</a>
+            </li>
+            <li class="scroll-to-link" data-target="content-retraink-flower-class">
+                <a>Retrain model KNN</a>
             </li>
             <li class="scroll-to-link" data-target="content-errors">
                 <a>Errors</a>
@@ -155,11 +161,11 @@ Result example :
             <pre><code class="bash">
 # Here is a curl example
 curl \
--X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/predictrf&lsepal=1&wsepal=2&lpetal=3&wpetal=4 \
+-X GET 'https://jorgegmayorgas.pythonanywhere.com/api/v1/predictrf&lsepal=1&wsepal=2&lpetal=3&wpetal=4' 
                 </code></pre>
             <p>
                 To get the numeric flower classes you need to make a GET call to the following url :<br>
-                <code class="higlighted break-word">https://jorgegmayorgas.pythonanywhere.com/api/v1/predict</code>
+                <code class="higlighted break-word">https://jorgegmayorgas.pythonanywhere.com/api/v1/predictrf</code>
             </p>
             <br>
             <pre><code class="json">
@@ -208,7 +214,7 @@ Result example :
             <pre><code class="bash">
 # Here is a curl example
 curl \
--X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/predictk&lsepal=1&wsepal=2&lpetal=3&wpetal=4 \
+-X GET 'https://jorgegmayorgas.pythonanywhere.com/api/v1/predictk&lsepal=1&wsepal=2&lpetal=3&wpetal=4'
                 </code></pre>
             <p>
                 To get the numeric flower classes you need to make a GET call to the following url :<br>
@@ -256,10 +262,92 @@ Result example :
                 </tbody>
             </table>
         </div>
+        <div class="overflow-hidden content-section" id="content-retrainrf-flower-class">
+            <h2>Retrain Random Forest ML model</h2>
+            <pre><code class="bash">
+# Here is a curl example
+curl \
+-X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/retrainforest \
+                </code></pre>
+            <p>
+                To retrain Random Forest ML model you need to make a GET call to the following url :<br>
+                <code class="higlighted break-word">https://jorgegmayorgas.pythonanywhere.com/api/v1/retrainforest</code>
+            </p>
+            <br>
+            <pre><code class="json">
+Result example :
+
+Model Random Forest retrained
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99        82
+           1       1.00      0.92      0.96        26
+           2       0.98      0.99      0.98        92
+
+    accuracy                           0.98       200
+   macro avg       0.99      0.97      0.98       200
+weighted avg       0.99      0.98      0.98       200
+
+                </code></pre>
+            <h4>QUERY PARAMETERS</h4>
+            <table class="central-overflow-x">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="overflow-hidden content-section" id="content-retraink-flower-class">
+            <h2>Retrain Random Forest ML model</h2>
+            <pre><code class="bash">
+# Here is a curl example
+curl \
+-X GET https://jorgegmayorgas.pythonanywhere.com/api/v1/retrainforest \
+                </code></pre>
+            <p>
+                To retrain KNN ML model you need to make a GET call to the following url :<br>
+                <code class="higlighted break-word">https://jorgegmayorgas.pythonanywhere.com/api/v1/retrainforest</code>
+            </p>
+            <br>
+            <pre><code class="json">
+Result example :
+
+Model KNN retrained
+
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99        82
+           1       1.00      0.92      0.96        26
+           2       0.98      0.99      0.98        92
+
+    accuracy                           0.98       200
+   macro avg       0.99      0.97      0.98       200
+weighted avg       0.99      0.98      0.98       200
+
+                </code></pre>
+            <h4>QUERY PARAMETERS</h4>
+            <table class="central-overflow-x">
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
         <div class="overflow-hidden content-section" id="content-errors">
             <h2>Errors</h2>
             <p>
-                The Westeros API uses the following error codes:
+                The Iris Dataset API uses the following error codes:
             </p>
             <table>
                 <thead>
