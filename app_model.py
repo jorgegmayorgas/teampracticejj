@@ -139,7 +139,7 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
             pickle.dump(model, file)
         
         message = "Model Random Forest retrained"
-        message = message + str(classification_report(y_test,y_pred))
+        message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
         return message
 
 @app.route('/api/v1/retrainknn/', methods=['GET'])
@@ -161,7 +161,7 @@ def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
             pickle.dump(model, file)
         
         message = "Model KNN retrained"
-        message = message + str(classification_report(y_test,y_pred))
+        message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
         return message
     
 @app.route('/webhook_2024', methods=['POST'])
