@@ -57,15 +57,30 @@ def predictrf(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
     print(lsepal,wsepal,lpetal,wpetal)
     #print(type(tv))
     bln_error=False
-    if lsepal is None:
-        bln_error=True
-    if wsepal is None:
-        bln_error=True
-    if lpetal is None:
-        bln_error=True
-    if wpetal is None:
-        bln_error=True
-
+    if not lsepal:
+        result_json={
+        'error': '001',
+        'message': 'lsepal parameter is mandatory'
+    }
+        return jsonify(result_json)    
+    if  not wsepal:
+        result_json={
+        'error': '002',
+        'message': 'wsepal parameter is mandatory'
+    }
+        return jsonify(result_json)    
+    if  not lpetal:
+        result_json={
+        'error': '003',
+        'message': 'lpetal parameter is mandatory'
+    }   
+        return jsonify(result_json)    
+    if not  wpetal:
+        result_json={
+        'error': '004',
+        'message': 'wpetal parameter is mandatory'
+    }   
+        return jsonify(result_json)
     dict_get_values={'sepal_length_(cm)':[lsepal],
     'sepal_width_(cm)':[wsepal],
     'petal_length_(cm)':[lpetal],
