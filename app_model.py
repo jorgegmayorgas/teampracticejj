@@ -49,7 +49,7 @@ def hello(): # Ligado al endopoint "/" o sea el home, con el método GET
 @app.route('/api/v1/predictrf', methods=['GET'])
 def predictrf(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
 
-    model = pickle.load(open(root_path + 'random_forest.pkl','rb'))
+    model = joblib.load(open(root_path + 'random_forest_joblib.pkl','rb'))
     lsepal = request.args.get('lsepal')
     wsepal = request.args.get('wsepal')
     lpetal = request.args.get('lpetal')
@@ -81,12 +81,12 @@ def predictrf(): # Ligado al endpoint '/api/v1/predictrf', con el método GET
     return jsonify(result_json)
 @app.route('/api/v1/predictk', methods=['GET'])
 def predictk(): # Ligado al endpoint '/api/v1/predictk', con el método GET
-    model = pickle.load(open(root_path + 'knn.pkl','rb'))
+    model = joblib.load(open(root_path + 'knn_joblib.pkl','rb'))
     lsepal = request.args.get('lsepal')
     wsepal = request.args.get('wsepal')
     lpetal = request.args.get('lpetal')
     wpetal = request.args.get('wpetal')
-    print(lsepal,wsepal,lpetal,wpetal)
+    #print(lsepal,wsepal,lpetal,wpetal)
     bln_error=False
     if lsepal is None:
         bln_error=True
@@ -134,10 +134,10 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
         model = RandomForestClassifier(n_estimators=150,random_state=42)  # 150 trees in the forest   
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        filename = f'{root_path}random_forest.pkl'
+        filename = f'{root_path}random_forest_joblib.pkl'
         
         with open(filename, 'wb') as file:
-            pickle.dump(model, file)
+            joblib.dump(model, file)
         
         message = "Model Random Forest retrained"
         message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
@@ -156,10 +156,10 @@ def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
         model = KNeighborsClassifier(n_neighbors=12) 
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        filename = f'{root_path}knn.pkl'
+        filename = f'{root_path}knn_joblib.pkl'
         
         with open(filename, 'wb') as file:
-            pickle.dump(model, file)
+            joblib.dump(model, file)
         
         message = "Model KNN retrained"
         message = message + "<pre>" + str(classification_report(y_test,y_pred)) + "</pre>"
