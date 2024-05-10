@@ -133,8 +133,8 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
         model = RandomForestClassifier(n_estimators=150,random_state=42)  # 150 trees in the forest   
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        filename = f'./random_forest.pkl'
-        filename = f'{filename}.pkl'
+        filename = f'{root_path}random_forest.pkl'
+        
         with open(filename, 'wb') as file:
             pickle.dump(model, file)
         
@@ -155,8 +155,8 @@ def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
         model = KNeighborsClassifier(n_neighbors=12) 
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
-        filename = f'./knn.pkl'
-        filename = f'{filename}.pkl'
+        filename = f'{root_path}knn.pkl'
+        
         with open(filename, 'wb') as file:
             pickle.dump(model, file)
         
