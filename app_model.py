@@ -125,8 +125,10 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
     
     if os.path.exists(root_path + "data/retrain_random_forest.csv"):
         data = pd.read_csv(root_path + 'data/retrain_random_forest.csv')
-        X_train, X_test, y_train, y_test = train_test_split(data[features_cat],
-                                                            data[target],
+        X = data[features_cat]
+        y = data[target]
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            y,
                                                             test_size = 0.20,
                                                             random_state=42)
         model = RandomForestClassifier(n_estimators=150,random_state=42)  # 150 trees in the forest   
@@ -145,8 +147,10 @@ def retrainforest(): # Rutarlo al endpoint '/api/v1/retrain/', metodo GET
 def retrainknn(): # Rutarlo al endpoint '/api/v1/retrainknn/', metodo GET
     if os.path.exists(root_path + "data/retrain_knn.csv"):
         data = pd.read_csv(root_path + 'data/retrain_knn.csv')
-        X_train, X_test, y_train, y_test = train_test_split(data[features_cat],
-                                                            data[target],
+        X = data[features_cat]
+        y = data[target]
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            y,
                                                             test_size = 0.20,
                                                             random_state=42)
         model = KNeighborsClassifier(n_neighbors=12) 
