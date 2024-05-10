@@ -1,15 +1,12 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
 import pickle
 import random
-import seaborn as sns
 import subprocess
 import urllib.request
 from flask import Flask, jsonify, request,render_template, send_from_directory
 from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
-####
 from sklearn.preprocessing import StandardScaler,MinMaxScaler,OneHotEncoder,MultiLabelBinarizer,OneHotEncoder,OrdinalEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
